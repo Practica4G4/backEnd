@@ -1,7 +1,7 @@
 const db = require('../../src/dataBase/conexion');
 module.exports = function (router) {
 
-    router.get('/', async(req, res) => {
+    router.post('/', async(req, res) => {
        try{
            const  entradaRegistro = require('../../src/mapeoObjetos/usuario/entradaRegistro');
         
