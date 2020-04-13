@@ -3,16 +3,21 @@ module.exports = function (router) {
 
     router.post('/', async(req, res) => {
        try{
-           const entradaLogin = require('../../src/mapeoObjetos/usuario/entradaLogin');
+           const entradaAutenticar = require('../../src/mapeoObjetos/usuario/entradaAutenticar');
+
+            const data = entradaAutenticar(req.body).data;
+            const result = await db.query('SELECT * FROM USUARIO WHERE noCuenta = ? AND contrasena = ?;',[data.noCuenta,data.contrasena]);
+            console.log(result);
+            if(result.length> 0){
+                res.status(200).send({ mensaje: 'Bienvenido' });
+            }else{
+                res.status(400).send({ mensaje: 'Credenciales no validas' });
+            }
+
         
         }catch(error){
-            if(error.code == 'ER_DUP_ENTRY'){
-                res.message = error;
-                res.status(400).send({ mensaje: 'XCredenciales Incorrectas.' }); 
-            }else{
-                res.message = error;
-                res.status(500).send({ mensaje: 'No se pudo completar la solicitud' });
-            }
+            res.message = error;
+            res.status(500).send({ mensaje: 'No se pudo completar la solicitud' });
         }
     });
 };
