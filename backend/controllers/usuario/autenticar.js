@@ -7,8 +7,8 @@ module.exports = function (router) {
 
             const data = entradaAutenticar(req.body).data;
             const result = await db.query('SELECT * FROM USUARIO WHERE noCuenta = ? AND contrasena = ?;',[data.noCuenta,data.contrasena]);
-            console.log(result);
-            if(result.length> 0){
+           
+            if(result.length > 0){
                 res.status(200).send({ mensaje: 'Bienvenido' });
             }else{
                 res.status(400).send({ mensaje: 'Credenciales no validas' });
