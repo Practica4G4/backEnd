@@ -17,6 +17,7 @@ module.exports = function (router) {
 
         
         }catch(error){
+            console.log(error);
             res.message = error;
             res.status(500).send({ mensaje: 'No se pudo completar la solicitud' });
         }
