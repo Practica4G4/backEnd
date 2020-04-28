@@ -31,13 +31,13 @@ describe('index', function () {
     });
 
 
-    it('should have model name "index"', function (done) {
+    it('should have model name "Bienvenido"', function (done) {
         request(mock)
             .get('/')
             .expect(200)
             .expect('Content-Type', /html/)
             
-                .expect(/"name": "index"/)
+                .expect(/"name": "Bienvenido"/)
             
             .end(function (err, res) {
                 done(err);
