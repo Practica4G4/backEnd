@@ -13,7 +13,9 @@ module.exports = function (grunt) {
     // Register group tasks
     grunt.registerTask('build', ['eslint', 'eslint', 'requirejs', 'copyto']);
 
+
     grunt.registerTask('test', [ 'mochacli' ]);
+
 
     
         grunt.registerTask('postinstall', ['copy-browser-modules']);
