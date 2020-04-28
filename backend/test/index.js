@@ -46,7 +46,7 @@ describe('TipoDeCambioAPI', function () {
     let bancoGuatemala;
 
     beforeEach(function (done) {
-        bancoGuatemala = require('../src/data/bancoGuatemalaAPI');
+        bancoGuatemala = require('../src/external/webservice/bancoGuatemala');
         done()
     });
 
