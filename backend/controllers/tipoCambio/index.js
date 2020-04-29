@@ -2,7 +2,7 @@ const { tipoCambioDia, tipoCambioDiaFechaInicial } = require('../../src/data/ban
 
 module.exports = function (router) {
 
-    router.get('/', async (req, res) => {
+    router.get('/Dia', async (req, res) => {
         const data = await tipoCambioDia();
         if (!data) return res.status(500).send({ mensaje: 'Servicio no disponible'});
         return res.send(data);
