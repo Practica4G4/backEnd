@@ -1,39 +1,29 @@
 const db = require('../../src/dataBase/conexion');
+const  {saldoOrigen}  = require('../../src/data/transferencias/saldoOrigen');
+const  {cuentaDestino}  = require('../../src/data/transferencias/cuentaDestino');
+const  {transferir} = require('../../src/data/transferencias/transferir');
 module.exports = function (router) {
 
     router.post('/', async(req, res) => {
-       try{
-           const  entradaTransferencia = require('../../src/mapeoObjetos/transferencia/entradaTransferencia');
-        
-            //insercion a la base de datos
-            const result = await db.query('INSERT INTO TRANSFERENCIA (monto,fecha,cuenta_origen,cuenta_destino) (SELECT ?,?,?,? FROM USUARIO WHERE saldoInicial >= ? and noCuenta=?)',
-                                        [entradaTransferencia(req.body).data.monto,
-                                        entradaTransferencia(req.body).data.fecha,
-                                        entradaTransferencia(req.body).data.cuenta_origen,
-                                        entradaTransferencia(req.body).data.cuenta_destino,
-                                        entradaTransferencia(req.body).data.monto,
-                                        entradaTransferencia(req.body).data.cuenta_origen]);
-
-            console.log(result);
-            if(result.affectedRows == 1){
-                const result2 = await db.query('UPDATE USUARIO SET saldoInicial=saldoInicial + ? where noCuenta=?',
-                                        [entradaTransferencia(req.body).data.monto,
-                                        entradaTransferencia(req.body).data.cuenta_destino]);
-                const result3 = await db.query('UPDATE USUARIO SET saldoInicial=saldoInicial - ? where noCuenta=?',
-                                        [entradaTransferencia(req.body).data.monto,
-                                        entradaTransferencia(req.body).data.cuenta_origen]);
-
-                if(result2.affectedRows==1 && result3.affectedRows==1){
-                    res.status(200).send({ mensaje: "Transferencia realizada" });
+       try{           
+            const existeCuentaDestino=await cuentaDestino(req.body);
+            if(existeCuentaDestino){
+                const saldoSuficiente = await saldoOrigen(req.body);
+                if(saldoSuficiente){
+                    const realizarTransferencia = await transferir(req.body);
+                    if(realizarTransferencia){
+                        res.status(200).send({ mensaje: "Transferencia realizada" });
+                    }else{
+                        res.status(400).send({ mensaje: "Transferencia no realizada." });
+                    }                   
                 }else{
-                    res.status(400).send({ mensaje: "Transferencia no realizada, no se pudo acreditar a las cuentas." });
+                    res.status(400).send({ mensaje: "Transferencia no realizada, fondos no suficientes." });
                 }
-                                                   
             }else{
-                res.status(400).send({ mensaje: "Transferencia no realizada" });
-            } 
+                res.status(400).send({ mensaje: "Transferencia no realizada, no existe la cuenta destino." });
+            }
+                        
         }catch(error){
-                console.log(error);
                 res.message = error;
                 res.status(500).send({ mensaje: 'No se pudo completar la solicitud' });           
         }
