@@ -1,9 +1,9 @@
-const { listarTransferencia } = require('../../src/data/reportes/transferenciasRealizadas');
+const { transRealizadas } = require('../../src/data/reportes/transferenciasRealizadas');
 module.exports = function (router) {
 
     router.get('/:noCuenta', async (req, res) => {
         try {
-            const transferencias = await listarTransferencia(req.params.noCuenta);
+            const transferencias = await transRealizadas(req.params.noCuenta);
             if (transferencias != null) {
                 res.status(200).send({
                     transferencias

@@ -1,6 +1,6 @@
 const db = require('../../dataBase/conexion');
 
-module.exports.listarTransferencia = async (noCuenta) => {
+module.exports.transRealizadas = async (noCuenta) => {
     try {
         const result = await db.query('SELECT * FROM TRANSFERENCIA WHERE cuenta_origen = ?;',[noCuenta]);
         if (result.length > 0) {
