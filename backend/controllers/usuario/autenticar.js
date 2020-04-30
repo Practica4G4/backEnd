@@ -1,22 +1,20 @@
 const db = require('../../src/dataBase/conexion');
+const { autenticar } = require('../../src/data/usuario/autenticar');
 module.exports = function (router) {
 
-    router.post('/', async(req, res) => {
-       try{
-           const entradaAutenticar = require('../../src/mapeoObjetos/usuario/entradaAutenticar');
-
-            const data = entradaAutenticar(req.body).data;
-            const result = await db.query('SELECT * FROM USUARIO WHERE noCuenta = ? AND contrasena = ?;',[data.noCuenta,data.contrasena]);
-           
-            if(result.length > 0){
-                res.status(200).send({ mensaje: 'Bienvenido',
-                                        usuario: result });
-            }else{
+    router.post('/', async (req, res) => {
+        try {
+            const autenticado = await autenticar(req);
+            if (autenticado != null) {
+                res.status(200).send({
+                    mensaje: 'Bienvenido',
+                    usuario: autenticado
+                });
+            } else {
                 res.status(400).send({ mensaje: 'Credenciales no validas' });
             }
 
-        
-        }catch(error){
+        } catch (error) {
             console.log(error);
             res.message = error;
             res.status(500).send({ mensaje: 'No se pudo completar la solicitud' });
