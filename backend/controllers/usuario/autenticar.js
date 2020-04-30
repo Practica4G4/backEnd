@@ -4,7 +4,7 @@ module.exports = function (router) {
 
     router.post('/', async (req, res) => {
         try {
-            const autenticado = await autenticar(req);
+            const autenticado = await autenticar(req.body);
             if (autenticado != null) {
                 res.status(200).send({
                     mensaje: 'Bienvenido',
