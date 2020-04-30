@@ -4,7 +4,7 @@ const  { registrar } = require('../../src/data/usuario/registrar');
 module.exports = function (router) {
     router.post('/', async(req, res) => {
        try{
-           const result = await registrar(req);           
+           const result = await registrar(req.body);           
             if(result){
                 res.status(200).send({ mensaje: "Usuario Registrado" });     
             }else{
