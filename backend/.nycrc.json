@@ -1,0 +1,10 @@
+{
+    "include": [
+        "src/**/*.js"
+    ],
+    "exclude":[
+        "src/data/",
+        "src/dataBase/"
+    ],
+    "reporter": "lcov"
+}
