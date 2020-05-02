@@ -12,7 +12,8 @@
     "all": "npm run build && npm run test",
     "postinstall": "grunt postinstall",
     "coverage": "nyc npm run test",
-    "sonar": "node sonar-project.js"
+    "sonar": "node sonar-project.js",
+    "test-sonar":"npm run coverage && npm run sonar"
   },
   "dependencies": {
     "construx": "^1.0.0",
