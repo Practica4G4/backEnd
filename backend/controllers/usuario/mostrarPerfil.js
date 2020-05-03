@@ -7,7 +7,7 @@ module.exports = function (router) {
 
             
             const data = entradaPerfil(req.params).data;
-            const result = await db.query('SELECT * FROM USUARIO WHERE noCuenta = ?',[data.noCuenta]);
+            const result = await db.query('SELECT CONCAT(nombre," ",apellido) as nombre,apellido, noCuenta, saldoInicial, correoElectronico, contrasena FROM USUARIO WHERE noCuenta = ?',[data.noCuenta]);
            
             if(result.length > 0){
                 res.status(200).send({ result });
