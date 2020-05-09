@@ -32,11 +32,11 @@ describe('Saldo de cuenta', () => {
         done();
     });
     
-    it('Numero de cuenta valido', (done) => {
+    it('Numero de cuenta invalido', (done) => {
         const data = entradaNoCuenta('45-564');
         expect(data)
             .to.be.a('boolean')
-            .to.be.equal(false);
+            .to.be.equal(true);
         done();
     });
 
